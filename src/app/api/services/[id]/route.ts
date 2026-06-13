@@ -17,9 +17,32 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
     }
 
     const body = await request.json()
+    
+    // Destructure to separate allow fields and prevent accidental updates of protected fields
+    const { 
+      name, 
+      description, 
+      estimatedTime, 
+      price, 
+      category, 
+      sortOrder, 
+      requiredFields,
+      isActive 
+    } = body
+
+    const updateData: any = {}
+    if (name !== undefined) updateData.name = name
+    if (description !== undefined) updateData.description = description
+    if (estimatedTime !== undefined) updateData.estimatedTime = estimatedTime
+    if (price !== undefined) updateData.price = parseFloat(price)
+    if (category !== undefined) updateData.category = category
+    if (sortOrder !== undefined) updateData.sortOrder = parseInt(sortOrder)
+    if (requiredFields !== undefined) updateData.requiredFields = requiredFields
+    if (isActive !== undefined) updateData.isActive = isActive
+
     const service = await db.service.update({
       where: { id },
-      data: body,
+      data: updateData,
     })
 
     return NextResponse.json({ service })

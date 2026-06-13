@@ -42,9 +42,9 @@ export async function POST(request: Request) {
         name,
         description: description || null,
         estimatedTime,
-        price,
+        price: parseFloat(price),
         category: category || 'general',
-        sortOrder: sortOrder || 0,
+        sortOrder: parseInt(sortOrder) || 0,
         requiredFields: requiredFields || null,
       },
     })

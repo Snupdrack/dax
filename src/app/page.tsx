@@ -2255,6 +2255,10 @@ function AdminServices({ services, onRefresh }: { services: Service[]; onRefresh
   }
 
   const handleSave = async () => {
+    if (!form.name || !form.estimatedTime || !form.price) {
+      toast({ title: 'Error', description: 'Nombre, tiempo y precio son obligatorios', variant: 'destructive' })
+      return
+    }
     setSaving(true)
     try {
       if (editingService) {

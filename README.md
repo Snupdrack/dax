@@ -158,3 +158,40 @@ WhatsApp: 961-314-2550
 ## Licencia
 
 Propietario - DAX Servicios Digitales
+
+'use client';
+
+import React, { useEffect, useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+// ... existing code ...
+
+export function RequiredFieldsEditor({
+  value,
+  onChange,
+}: RequiredFieldsEditorProps) {
+  const parseFields = (rawValue?: string | null): RequiredField[] => {
+    if (!rawValue) return [];
+    try {
+      const parsed = JSON.parse(rawValue);
+      return Array.isArray(parsed) ? parsed : [];
+    } catch {
+      return [];
+    }
+  };
+
+  const [fields, setFields] = useState<RequiredField[]>(() => parseFields(value));
+
+  useEffect(() => {
+    setFields(parseFields(value));
+  }, [value]);
+
+  const [newField, setNewField] = useState<RequiredField>({
+    key: '',
+    label: '',
+    required: true,
+    type: 'text',
+  });
+
+// ... existing code ...
